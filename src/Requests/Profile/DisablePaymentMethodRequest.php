@@ -17,7 +17,7 @@ class DisablePaymentMethodRequest extends ARequest
 	use WithProfileIdPrefix;
 
 	/*** @var string */
-	protected string $endpointPrefix = ApiEndpoint::PROFILE_PAYMENT_METHOD;
+	protected string $endpointPrefix = ApiEndpoint::PROFILES_PAYMENT_METHOD;
 	/*** @return string */
 	protected string $httpMethod = HttpMethod::HTTP_DELETE;
 	/*** @var string */

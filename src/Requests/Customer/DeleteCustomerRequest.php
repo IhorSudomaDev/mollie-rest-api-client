@@ -46,6 +46,6 @@ class DeleteCustomerRequest extends ARequest
 	/*** @return string */
 	public function getUrl(): string
 	{
-		return ApiEndpoint::getFor($this->endpointPrefix);
+		return sprintf(ApiEndpoint::getFor($this->endpointPrefix), $this->getCustomerId());
 	}
 }

@@ -5,6 +5,7 @@ namespace MollieRestApiClient\ValueObjects;
 use MollieRestApiClient\Models\Address;
 use MollieRestApiClient\Models\Amount;
 use MollieRestApiClient\Models\Customer;
+use MollieRestApiClient\Models\Mandate;
 use MollieRestApiClient\Models\Organization;
 use MollieRestApiClient\Models\Payment;
 use MollieRestApiClient\Models\Profile;
@@ -49,6 +50,9 @@ class ModelFactory
 							break;
 						case 'customer':
 							$newModel = new Customer();
+							break;
+						case 'mandate':
+							$newModel = new Mandate();
 							break;
 						case 'organization':
 							$newModel = new Organization();

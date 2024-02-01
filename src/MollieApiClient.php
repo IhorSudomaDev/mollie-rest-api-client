@@ -9,6 +9,9 @@ use MollieRestApiClient\Requests\Customer\DeleteCustomerRequest;
 use MollieRestApiClient\Requests\Customer\GetCustomerListRequest;
 use MollieRestApiClient\Requests\Customer\GetCustomerRequest;
 use MollieRestApiClient\Requests\Customer\UpdateCustomerRequest;
+use MollieRestApiClient\Requests\Mandate\CreateMandateRequest;
+use MollieRestApiClient\Requests\Mandate\GetMandateRequest;
+use MollieRestApiClient\Requests\Mandate\RevokeMandateRequest;
 use MollieRestApiClient\Requests\Organization\GetOrganizationRequest;
 use MollieRestApiClient\Requests\Payment\CancelPaymentRequest;
 use MollieRestApiClient\Requests\Payment\CreatePaymentRequest;
@@ -237,7 +240,7 @@ class MollieApiClient
 	 * @return mixed
 	 * @throws Throwable|GuzzleException
 	 */
-	public function getPaymentCheckoutUrl(string $paymentId, ?bool $isTestMode = FALSE)
+	public function getPaymentCheckoutUrl(string $paymentId, ?bool $isTestMode = FALSE): mixed
 	{
 		$request = $this->getPayment($paymentId);
 		if ($isTestMode) {
@@ -249,6 +252,37 @@ class MollieApiClient
 			throw new RuntimeException('Checkout URL absent, time has expired');
 		}
 		return $payment->getLinks()->checkout->href;
+	}
+
+	/**
+	 * @param string $customerId
+	 * @param string $mandateId
+	 * @return GetMandateRequest
+	 */
+	public function getMandate(string $customerId, string $mandateId): GetMandateRequest
+	{
+		return new GetMandateRequest($this->getAccessToken(), $customerId, $mandateId);
+	}
+
+	/**
+	 * @param string $customerId
+	 * @param string $method
+	 * @param string $consumerName
+	 * @return CreateMandateRequest
+	 */
+	public function createMandate(string $customerId, string $method, string $consumerName): CreateMandateRequest
+	{
+		return new CreateMandateRequest($this->getAccessToken(), $customerId, $method, $consumerName);
+	}
+
+	/**
+	 * @param string $customerId
+	 * @param string $mandateId
+	 * @return RevokeMandateRequest
+	 */
+	public function revokeMandate(string $customerId, string $mandateId): RevokeMandateRequest
+	{
+		return new RevokeMandateRequest($this->getAccessToken(), $customerId, $mandateId);
 	}
 
 	/**

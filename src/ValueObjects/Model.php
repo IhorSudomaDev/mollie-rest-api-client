@@ -11,6 +11,8 @@ class Model
 	/*** @var string */
 	public const CUSTOMER = 'Customer';
 	/*** @var string */
+	public const MANDATE = 'Mandate';
+	/*** @var string */
 	public const METHOD = 'Method';
 	/*** @var string */
 	public const ORGANIZATION = 'Organization';

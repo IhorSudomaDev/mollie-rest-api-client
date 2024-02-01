@@ -17,6 +17,10 @@ class ApiEndpoint
 	/*** @var string */
 	public const CUSTOMERS_WITH_IDENTIFIER = 'customers_with_identifier';
 	/*** @var string */
+	public const MANDATES = 'mandates';
+	/*** @var string */
+	public const MANDATES_WITH_IDENTIFIER = 'mandates_with_identifier';
+	/*** @var string */
 	public const METHODS = 'methods';
 	/*** @var string */
 	public const ORGANIZATIONS_WITH_IDENTIFIER = 'organizations_with_identifier';
@@ -29,7 +33,7 @@ class ApiEndpoint
 	/*** @var string */
 	public const PROFILES_WITH_IDENTIFIER = 'profiles_with_identifier';
 	/*** @var string */
-	public const PROFILE_PAYMENT_METHOD = 'profile_payment_methods';
+	public const PROFILES_PAYMENT_METHOD = 'profiles_payment_methods';
 	/*** @var string */
 	public const SUBSCRIPTIONS = 'subscriptions';
 	/*** @var string */
@@ -41,13 +45,15 @@ class ApiEndpoint
 	private const URL_PREFIX = [
 		self::CUSTOMERS                      => 'customers',
 		self::CUSTOMERS_WITH_IDENTIFIER      => 'customers/%s',
+		self::MANDATES                       => 'customers/%s/mandates',
+		self::MANDATES_WITH_IDENTIFIER       => 'customers/%s/mandates/%s',
 		self::METHODS                        => 'methods/%s',
 		self::ORGANIZATIONS_WITH_IDENTIFIER  => 'organizations/%s',
 		self::PAYMENTS                       => 'payments',
 		self::PAYMENTS_WITH_IDENTIFIER       => 'payments/%s',
 		self::PROFILES                       => 'profiles',
 		self::PROFILES_WITH_IDENTIFIER       => 'profiles/%s',
-		self::PROFILE_PAYMENT_METHOD         => 'profiles/%s/methods/%s',
+		self::PROFILES_PAYMENT_METHOD        => 'profiles/%s/methods/%s',
 		self::SUBSCRIPTIONS                  => 'customers/%s/subscriptions',
 		self::SUBSCRIPTIONS_ALL              => 'subscriptions',
 		self::SUBSCRIPTIONS_WITH_IDENTIFIERS => 'customers/%s/subscriptions/%s',
