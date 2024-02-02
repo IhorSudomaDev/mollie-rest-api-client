@@ -73,7 +73,7 @@ class CreateSubscriptionRequest extends ARequest
 	 */
 	private function withProfileId(string $profileId): void
 	{
-		$this->availableInputParameters['profileId'] = $profileId();
+		$this->availableInputParameters['profileId'] = $profileId;
 	}
 
 	/**
