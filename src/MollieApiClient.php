@@ -10,6 +10,7 @@ use MollieRestApiClient\Requests\Customer\GetCustomerListRequest;
 use MollieRestApiClient\Requests\Customer\GetCustomerRequest;
 use MollieRestApiClient\Requests\Customer\UpdateCustomerRequest;
 use MollieRestApiClient\Requests\Mandate\CreateMandateRequest;
+use MollieRestApiClient\Requests\Mandate\GetMandateListRequest;
 use MollieRestApiClient\Requests\Mandate\GetMandateRequest;
 use MollieRestApiClient\Requests\Mandate\RevokeMandateRequest;
 use MollieRestApiClient\Requests\Organization\GetOrganizationRequest;
@@ -263,6 +264,15 @@ class MollieApiClient
 	{
 		return new GetMandateRequest($this->getAccessToken(), $customerId, $mandateId);
 	}
+	/**
+	 * @param string $customerId
+	 * @return GetMandateListRequest
+	 */
+	public function getMandateList(string $customerId): GetMandateListRequest
+	{
+		return new GetMandateListRequest($this->getAccessToken(), $customerId);
+	}
+
 
 	/**
 	 * @param string $customerId
