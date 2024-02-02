@@ -64,7 +64,7 @@ class CreateMandateRequest extends ARequest
 	 */
 	public function withConsumerAccount(string $consumerAccount): self
 	{
-		$this->availableInputParameters['consumerEmail'] = $consumerAccount;
+		$this->availableInputParameters['consumerAccount'] = $consumerAccount;
 		return $this;
 	}
 
@@ -74,7 +74,7 @@ class CreateMandateRequest extends ARequest
 	 */
 	public function withConsumerBic(string $consumerBic): self
 	{
-		$this->availableInputParameters['consumerEmail'] = $consumerBic;
+		$this->availableInputParameters['consumerBic'] = $consumerBic;
 		return $this;
 	}
 
