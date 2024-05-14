@@ -18,22 +18,10 @@ class Address
 		return $this->streetAndNumber;
 	}
 
-	/*** @param string $streetAndNumber */
-	public function setStreetAndNumber(string $streetAndNumber): void
-	{
-		$this->streetAndNumber = $streetAndNumber;
-	}
-
 	/*** @return string */
 	public function getPostalCode(): string
 	{
 		return $this->postalCode;
-	}
-
-	/*** @param string $postalCode */
-	public function setPostalCode(string $postalCode): void
-	{
-		$this->postalCode = $postalCode;
 	}
 
 	/*** @return string */
@@ -42,21 +30,9 @@ class Address
 		return $this->city;
 	}
 
-	/*** @param string $city */
-	public function setCity(string $city): void
-	{
-		$this->city = $city;
-	}
-
 	/*** @return string */
 	public function getCountry(): string
 	{
 		return $this->country;
-	}
-
-	/*** @param string $country */
-	public function setCountry(string $country): void
-	{
-		$this->country = $country;
 	}
 }

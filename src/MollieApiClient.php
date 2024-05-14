@@ -2,7 +2,6 @@
 
 namespace MollieRestApiClient;
 
-use GuzzleHttp\Exception\GuzzleException;
 use MollieRestApiClient\Models\Payment;
 use MollieRestApiClient\Requests\Customer\CreateCustomerRequest;
 use MollieRestApiClient\Requests\Customer\DeleteCustomerRequest;
@@ -23,6 +22,7 @@ use MollieRestApiClient\Requests\Profile\CreateProfileRequest;
 use MollieRestApiClient\Requests\Profile\DeleteProfileRequest;
 use MollieRestApiClient\Requests\Profile\DisablePaymentMethodRequest;
 use MollieRestApiClient\Requests\Profile\EnablePaymentMethodRequest;
+use MollieRestApiClient\Requests\Profile\GetCurrentProfileRequest;
 use MollieRestApiClient\Requests\Profile\GetProfileListRequest;
 use MollieRestApiClient\Requests\Profile\GetProfileRequest;
 use MollieRestApiClient\Requests\Profile\UpdateProfileRequest;
@@ -30,6 +30,7 @@ use MollieRestApiClient\Requests\Subscription\CancelSubscriptionRequest;
 use MollieRestApiClient\Requests\Subscription\CreateSubscriptionRequest;
 use MollieRestApiClient\Requests\Subscription\GetAllSubscriptionListRequest;
 use MollieRestApiClient\Requests\Subscription\GetSubscriptionListRequest;
+use MollieRestApiClient\Requests\Subscription\GetSubscriptionPaymentListRequest;
 use MollieRestApiClient\Requests\Subscription\GetSubscriptionRequest;
 use MollieRestApiClient\Requests\Subscription\UpdateSubscriptionRequest;
 use MollieRestApiClient\ValueObjects\Payment\PaymentStatus;
@@ -117,6 +118,12 @@ class MollieApiClient
 		return new GetProfileRequest($this->getAccessToken(), $profileId);
 	}
 
+	/*** @return GetCurrentProfileRequest */
+	public function getCurrentProfile(): GetCurrentProfileRequest
+	{
+		return new GetCurrentProfileRequest($this->getAccessToken());
+	}
+
 	/*** @return GetProfileListRequest */
 	public function getProfileList(): GetProfileListRequest
 	{
@@ -189,19 +196,17 @@ class MollieApiClient
 	}
 
 	/**
-	 * @param string $profileId
 	 * @param string $amount
 	 * @param string $description
 	 * @param string $redirectUrl
 	 * @return CreatePaymentRequest
 	 */
-	public function createPayment(string $profileId, string $amount, string $description, string $redirectUrl): CreatePaymentRequest
+	public function createPayment(string $amount, string $description, string $redirectUrl): CreatePaymentRequest
 	{
-		return new CreatePaymentRequest($this->getAccessToken(), $profileId, $amount, $description, $redirectUrl);
+		return new CreatePaymentRequest($this->getAccessToken(), $amount, $description, $redirectUrl);
 	}
 
 	/**
-	 * @param string      $profileId
 	 * @param string      $amount
 	 * @param string      $description
 	 * @param string      $redirectUrl
@@ -210,9 +215,9 @@ class MollieApiClient
 	 * @param string|NULL $mandateId
 	 * @return CreatePaymentRequest
 	 */
-	public function createRecurringPayment(string $profileId, string $amount, string $description, string $redirectUrl, string $sequenceType, string $customerId, ?string $mandateId = NULL): CreatePaymentRequest
+	public function createRecurringPayment(string $amount, string $description, string $redirectUrl, string $sequenceType, string $customerId, ?string $mandateId = NULL): CreatePaymentRequest
 	{
-		$request = new CreatePaymentRequest($this->getAccessToken(), $profileId, $amount, $description, $redirectUrl);
+		$request = new CreatePaymentRequest($this->getAccessToken(), $amount, $description, $redirectUrl);
 		$request->makeRecurring($sequenceType, $customerId, $mandateId);
 		return $request;
 	}
@@ -239,9 +244,9 @@ class MollieApiClient
 	 * @param string    $paymentId
 	 * @param bool|NULL $isTestMode
 	 * @return mixed
-	 * @throws Throwable|GuzzleException
+	 * @throws Throwable
 	 */
-	public function getPaymentCheckoutUrl(string $paymentId, ?bool $isTestMode = FALSE): mixed
+	public function getPaymentCheckoutUrl(string $paymentId, ?bool $isTestMode = FALSE)
 	{
 		$request = $this->getPayment($paymentId);
 		if ($isTestMode) {
@@ -264,6 +269,7 @@ class MollieApiClient
 	{
 		return new GetMandateRequest($this->getAccessToken(), $customerId, $mandateId);
 	}
+
 	/**
 	 * @param string $customerId
 	 * @return GetMandateListRequest
@@ -272,7 +278,6 @@ class MollieApiClient
 	{
 		return new GetMandateListRequest($this->getAccessToken(), $customerId);
 	}
-
 
 	/**
 	 * @param string $customerId
@@ -310,12 +315,11 @@ class MollieApiClient
 	 * @param string $amount
 	 * @param string $interval
 	 * @param string $description
-	 * @param string $profileId
 	 * @return CreateSubscriptionRequest
 	 */
-	public function createSubscription(string $customerId, string $amount, string $interval, string $description, string $profileId): CreateSubscriptionRequest
+	public function createSubscription(string $customerId, string $amount, string $interval, string $description): CreateSubscriptionRequest
 	{
-		return new CreateSubscriptionRequest($this->getAccessToken(), $customerId, $amount, $interval, $description, $profileId);
+		return new CreateSubscriptionRequest($this->getAccessToken(), $customerId, $amount, $interval, $description);
 	}
 
 	/**
@@ -340,17 +344,26 @@ class MollieApiClient
 
 	/**
 	 * @param string $customerId
-	 * @param string $profileId
 	 * @return GetSubscriptionListRequest
 	 */
-	public function getSubscriptionList(string $customerId, string $profileId): GetSubscriptionListRequest
+	public function getSubscriptionList(string $customerId): GetSubscriptionListRequest
 	{
-		return new GetSubscriptionListRequest($this->getAccessToken(), $customerId, $profileId);
+		return new GetSubscriptionListRequest($this->getAccessToken(), $customerId);
 	}
 
 	/*** @return GetAllSubscriptionListRequest */
 	public function getAllSubscriptionList(): GetAllSubscriptionListRequest
 	{
 		return new GetAllSubscriptionListRequest($this->getAccessToken());
+	}
+
+	/**
+	 * @param string $customerId
+	 * @param string $subscriptionId
+	 * @return GetSubscriptionPaymentListRequest
+	 */
+	public function getSubscriptionPaymentList(string $customerId, string $subscriptionId): GetSubscriptionPaymentListRequest
+	{
+		return new GetSubscriptionPaymentListRequest($this->getAccessToken(), $customerId, $subscriptionId);
 	}
 }

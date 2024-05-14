@@ -35,9 +35,8 @@ class CreateSubscriptionRequest extends ARequest
 	 * @param string $value
 	 * @param string $interval
 	 * @param string $description
-	 * @param string $profileId
 	 */
-	public function __construct(string $accessToken, string $customerId, string $value, string $interval, string $description, string $profileId)
+	public function __construct(string $accessToken, string $customerId, string $value, string $interval, string $description)
 	{
 		parent::__construct($accessToken);
 		$this->checkCustomerIdPrefix($customerId);
@@ -45,8 +44,6 @@ class CreateSubscriptionRequest extends ARequest
 		$this->withAmount($value);
 		$this->withInterval($interval);
 		$this->withDescription($description);
-		$this->checkProfileIdPrefix($profileId);
-		$this->withProfileId($profileId);
 	}
 
 	/*** @param string $value */
@@ -73,6 +70,7 @@ class CreateSubscriptionRequest extends ARequest
 	 */
 	private function withProfileId(string $profileId): void
 	{
+		$this->checkProfileIdPrefix($profileId);
 		$this->availableInputParameters['profileId'] = $profileId;
 	}
 

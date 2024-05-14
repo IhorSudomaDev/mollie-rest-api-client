@@ -16,6 +16,9 @@ trait WithPagination
 	 */
 	protected function checkLimit(int $limit): int
 	{
+		if ( ! is_numeric($limit) || $limit < 0) {
+			throw new RuntimeException('Incorrect Page parameter');
+		}
 		if ($limit > $this->maxLimit) {
 			throw new RuntimeException('The limit should not exceed 250');
 		}

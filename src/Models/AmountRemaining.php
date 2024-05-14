@@ -5,10 +5,10 @@ namespace MollieRestApiClient\Models;
 use MollieRestApiClient\Models\Abstracts\AAmount;
 
 /**
- * Class Amount
+ * Class AmountRemaining
  * @package MollieRestApiClient\Models
  */
-class Amount extends AAmount
+class AmountRemaining extends AAmount
 {
 
 }

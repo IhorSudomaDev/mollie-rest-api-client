@@ -40,6 +40,8 @@ class ApiEndpoint
 	public const SUBSCRIPTIONS_ALL = 'subscriptions_all';
 	/*** @var string */
 	public const SUBSCRIPTIONS_WITH_IDENTIFIERS = 'subscriptions_with_identifiers';
+	/*** @var string */
+	public const SUBSCRIPTIONS_PAYMENTS = 'subscriptions_payments';
 
 	/*** @var array */
 	private const URL_PREFIX = [
@@ -57,6 +59,7 @@ class ApiEndpoint
 		self::SUBSCRIPTIONS                  => 'customers/%s/subscriptions',
 		self::SUBSCRIPTIONS_ALL              => 'subscriptions',
 		self::SUBSCRIPTIONS_WITH_IDENTIFIERS => 'customers/%s/subscriptions/%s',
+		self::SUBSCRIPTIONS_PAYMENTS         => 'customers/%s/subscriptions/%s/payments',
 	];
 
 	/**

@@ -35,19 +35,16 @@ class CreatePaymentRequest extends ARequest
 
 	/**
 	 * @param string $accessToken
-	 * @param string $profileId
 	 * @param string $value
 	 * @param string $description
 	 * @param string $redirectUrl
 	 */
-	public function __construct(string $accessToken, string $profileId, string $value, string $description, string $redirectUrl)
+	public function __construct(string $accessToken, string $value, string $description, string $redirectUrl)
 	{
 		parent::__construct($accessToken);
-		$this->checkProfileIdPrefix($profileId);
 		$this->withAmount($value);
 		$this->withDescription($description);
 		$this->withRedirectUrl($redirectUrl);
-		$this->withProfileId($profileId);
 		$this->withIdealMethod();
 	}
 
@@ -75,6 +72,7 @@ class CreatePaymentRequest extends ARequest
 	 */
 	private function withProfileId(string $profileId): void
 	{
+		$this->checkProfileIdPrefix($profileId);
 		$this->availableInputParameters['profileId'] = $profileId;
 	}
 
@@ -191,8 +189,8 @@ class CreatePaymentRequest extends ARequest
 		if ( ! in_array($sequenceType, SequenceType::getPossibleValueList(), TRUE)) {
 			throw new RuntimeException('Undefined sequence type');
 		}
-		$this->availableInputParameters['sequenceType']   = $sequenceType;
-		$this->availableInputParameters['customerId'] = $customerId;
+		$this->availableInputParameters['sequenceType'] = $sequenceType;
+		$this->availableInputParameters['customerId']   = $customerId;
 		if ($mandateId !== NULL) {
 			$this->availableInputParameters['mandateId'] = $mandateId;
 		}

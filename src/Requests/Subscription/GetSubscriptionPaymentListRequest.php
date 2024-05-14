@@ -7,20 +7,21 @@ use MollieRestApiClient\Responses\Subscription\SubscriptionListResponse;
 use MollieRestApiClient\Traits\WithCustomerIdPrefix;
 use MollieRestApiClient\Traits\WithPagination;
 use MollieRestApiClient\Traits\WithProfileIdPrefix;
+use MollieRestApiClient\Traits\WithSubscriptionIdPrefix;
 use MollieRestApiClient\Traits\WithTestMode;
 use MollieRestApiClient\ValueObjects\ApiEndpoint;
 use MollieRestApiClient\ValueObjects\HttpMethod;
 
 /**
- * Class GetSubscriptionListRequest
+ * Class GetSubscriptionPaymentListRequest
  * @package MollieRestApiClient\Requests\Subscription
  */
-class GetSubscriptionListRequest extends ARequest
+class GetSubscriptionPaymentListRequest extends ARequest
 {
-	use WithCustomerIdPrefix, WithProfileIdPrefix, WithPagination, WithTestMode;
+	use WithCustomerIdPrefix, WithSubscriptionIdPrefix, WithProfileIdPrefix, WithPagination, WithTestMode;
 
 	/*** @var string */
-	protected string $endpointPrefix = ApiEndpoint::SUBSCRIPTIONS;
+	protected string $endpointPrefix = ApiEndpoint::SUBSCRIPTIONS_PAYMENTS;
 	/*** @return string */
 	protected string $httpMethod = HttpMethod::HTTP_GET;
 	/*** @var string */
@@ -31,18 +32,20 @@ class GetSubscriptionListRequest extends ARequest
 	/**
 	 * @param string $accessToken
 	 * @param string $customerId
+	 * @param string $subscriptionId
 	 */
-	public function __construct(string $accessToken, string $customerId)
+	public function __construct(string $accessToken, string $customerId, string $subscriptionId)
 	{
 		parent::__construct($accessToken);
 		$this->checkCustomerIdPrefix($customerId);
 		$this->setCustomerId($customerId);
+		$this->checkSubscriptionIdPrefix($subscriptionId);
+		$this->setSubscriptionId($subscriptionId);
 	}
 
 	/*** @param string $profileId */
 	private function withProfileId(string $profileId): void
 	{
-		$this->checkProfileIdPrefix($profileId);
 		$this->availableInputParameters['profileId'] = $profileId;
 	}
 
