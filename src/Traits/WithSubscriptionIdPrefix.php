@@ -15,9 +15,8 @@ trait WithSubscriptionIdPrefix
 	/*** @param string $subscriptionId */
 	protected function checkSubscriptionIdPrefix(string $subscriptionId): void
 	{
-		$resourceIdPrefix = $this->resourceIdPrefix;
-		if (empty($profileId) || strpos($profileId, $resourceIdPrefix) !== 0) {
-			throw new RuntimeException("Invalid subscription id: '{$subscriptionId}'. An subscription id should start with '" . $subscriptionId . "'.");
+		if (empty($subscriptionId) || strpos($subscriptionId, $this->resourceIdPrefix) !== 0) {
+			throw new RuntimeException(sprintf("Invalid subscription id: '%s'. An subscription id should start with '%s'.", $subscriptionId, $this->resourceIdPrefix));
 		}
 	}
 

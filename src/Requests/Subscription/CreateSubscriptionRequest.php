@@ -32,24 +32,35 @@ class CreateSubscriptionRequest extends ARequest
 	/**
 	 * @param string $accessToken
 	 * @param string $customerId
-	 * @param string $value
+	 * @param float  $value
+	 * @param string $currency
 	 * @param string $interval
 	 * @param string $description
 	 */
-	public function __construct(string $accessToken, string $customerId, string $value, string $interval, string $description)
+	public function __construct(string $accessToken, string $customerId, float $value, string $currency, string $interval, string $description)
 	{
 		parent::__construct($accessToken);
 		$this->checkCustomerIdPrefix($customerId);
 		$this->setCustomerId($customerId);
-		$this->withAmount($value);
+		$this->withAmount($value, $currency);
 		$this->withInterval($interval);
 		$this->withDescription($description);
 	}
 
-	/*** @param string $value */
-	private function withAmount(string $value): void
+	/**
+	 * @param float $value
+	 * @param string $currency
+	 * @return void
+	 */
+	private function withAmount(float $value, string $currency): void
 	{
-		$this->availableInputParameters = ['amount' => ['value' => $value, 'currency' => 'EUR']];
+		$strValue  = convertFloatToStr($value);
+		$this->availableInputParameters = [
+			'amount' => [
+				'value' => $strValue,
+				'currency' => $currency
+			]
+		];
 	}
 
 	/*** @param string $interval */

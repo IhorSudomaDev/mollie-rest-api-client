@@ -2,6 +2,8 @@
 
 namespace MollieRestApiClient\ValueObjects;
 
+use stdClass;
+
 /**
  * Class ModelFactory
  * @package MollieRestApiClient\ValueObjects
@@ -15,10 +17,15 @@ class ModelFactory
 	 */
 	public static function create($model, $data)
 	{
+		if (empty($data)) {
+			$data = [];
+		}
 		foreach ($data as $property => $propertyValue) {
-			$className = '\\MollieRestApiClient\\Models\\' . ucfirst($property);
-			if (class_exists($className)) {
-				$propertyValue = self::create(new $className(), $propertyValue);
+			if($propertyValue instanceof stdClass || is_array($propertyValue)) {
+				$className = '\\MollieRestApiClient\\Models\\' . ucfirst($property);
+				if (class_exists($className)) {
+					$propertyValue = self::create(new $className(), $propertyValue);
+				}
 			}
 			$model->{$property} = $propertyValue;
 		}

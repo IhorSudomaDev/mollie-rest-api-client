@@ -15,9 +15,8 @@ trait WithMandateIdPrefix
 	/*** @param string $mandateId */
 	protected function checkMandateIdPrefix(string $mandateId): void
 	{
-		$resourceIdPrefix = $this->mandateIdPrefix;
-		if (empty($customerId) || strpos($mandateId, $resourceIdPrefix) !== 0) {
-			throw new RuntimeException("Invalid mandate id: '{$mandateId}'. An mandate id should start with '" . $resourceIdPrefix . "'.");
+		if (empty($mandateId) || strpos($mandateId, $this->mandateIdPrefix) !== 0) {
+			throw new RuntimeException(sprintf("Invalid mandate id: '%s'. An mandate id should start with '%s'.", $mandateId, $this->mandateIdPrefix));
 		}
 	}
 

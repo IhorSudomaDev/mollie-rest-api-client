@@ -27,21 +27,32 @@ class GetPaymentMethodRequest extends ARequest
 	protected array $availableInputParameters = [
 		'_links' => [],
 	];
+	protected string $id;
 
 	/**
 	 * @param string $accessToken
-	 * @param string $profileId
+	 * @param string $id
 	 */
-	public function __construct(string $accessToken, string $profileId)
+	public function __construct(string $accessToken, string $id)
 	{
 		parent::__construct($accessToken);
+		$this->id = $id;
+	}
+
+	/**
+	 * @param string $profileId
+	 * @return $this
+	 */
+	public function withProfileId(string $profileId): self
+	{
 		$this->checkProfileIdPrefix($profileId);
-		$this->setProfileId($profileId);
+		$this->availableInputParameters['profileId'] = $profileId;
+		return $this;
 	}
 
 	/*** @return string */
 	public function getUrl(): string
 	{
-		return sprintf(ApiEndpoint::getFor($this->endpointPrefix), $this->getProfileId());
+		return sprintf(ApiEndpoint::getFor($this->endpointPrefix), $this->id);
 	}
 }

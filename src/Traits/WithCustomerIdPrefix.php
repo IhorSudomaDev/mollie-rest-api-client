@@ -15,9 +15,8 @@ trait WithCustomerIdPrefix
 	/*** @param string $customerId */
 	protected function checkCustomerIdPrefix(string $customerId): void
 	{
-		$resourceIdPrefix = $this->customerIdPrefix;
-		if (empty($customerId) || strpos($customerId, $resourceIdPrefix) !== 0) {
-			throw new RuntimeException("Invalid customer id: '{$customerId}'. An customer id should start with '" . $resourceIdPrefix . "'.");
+		if (empty($customerId) || strpos($customerId, $this->customerIdPrefix) !== 0) {
+			throw new RuntimeException(sprintf("Invalid customer id: '%s'. An customer id should start with '%s'.", $customerId, $this->customerIdPrefix));
 		}
 	}
 

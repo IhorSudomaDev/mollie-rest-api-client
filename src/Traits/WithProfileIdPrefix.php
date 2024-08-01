@@ -15,9 +15,8 @@ trait WithProfileIdPrefix
 	/*** @param string $profileId */
 	protected function checkProfileIdPrefix(string $profileId): void
 	{
-		$resourceIdPrefix = $this->profileIdPrefix;
-		if (empty($profileId) || strpos($profileId, $resourceIdPrefix) !== 0) {
-			throw new RuntimeException("Invalid profile id: '{$profileId}'. An profile id should start with '" . $resourceIdPrefix . "'.");
+		if (empty($profileId) || strpos($profileId, $this->profileIdPrefix) !== 0) {
+			throw new RuntimeException(sprintf("Invalid profile id: '%s'. An profile id should start with '%s'.", $profileId, $this->profileIdPrefix));
 		}
 	}
 

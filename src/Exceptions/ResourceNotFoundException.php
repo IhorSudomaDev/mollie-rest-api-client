@@ -5,12 +5,12 @@ namespace MollieRestApiClient\Exceptions;
 use Exception;
 
 /**
- * Class ForbiddenException
+ * Class ResourceNotFoundException
  * @property int    $code
  * @property string $message
  * @package MollieRestApiClient\Exceptions
  */
-class ForbiddenException extends Exception
+class ResourceNotFoundException extends Exception
 {
 	/***
 	 * @param string $message

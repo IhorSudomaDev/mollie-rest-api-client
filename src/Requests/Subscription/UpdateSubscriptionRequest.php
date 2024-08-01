@@ -42,12 +42,19 @@ class UpdateSubscriptionRequest extends ARequest
 	}
 
 	/**
-	 * @param string $value
+	 * @param float $value
+	 * @param string $currency
 	 * @return $this
 	 */
-	public function withAmount(string $value): self
+	public function withAmount(float $value, string $currency): self
 	{
-		$this->availableInputParameters = ['amount' => ['value' => $value, 'currency' => 'EUR']];
+		$strValue  = convertFloatToStr($value);
+		$this->availableInputParameters = [
+				'amount' => [
+				'value' => $strValue,
+				'currency' => $currency
+			]
+		];
 		return $this;
 	}
 

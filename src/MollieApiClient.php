@@ -12,6 +12,8 @@ use MollieRestApiClient\Requests\Mandate\CreateMandateRequest;
 use MollieRestApiClient\Requests\Mandate\GetMandateListRequest;
 use MollieRestApiClient\Requests\Mandate\GetMandateRequest;
 use MollieRestApiClient\Requests\Mandate\RevokeMandateRequest;
+use MollieRestApiClient\Requests\Method\GetPaymentMethodListRequest;
+use MollieRestApiClient\Requests\Method\GetPaymentMethodRequest;
 use MollieRestApiClient\Requests\Organization\GetOrganizationRequest;
 use MollieRestApiClient\Requests\Payment\CancelPaymentRequest;
 use MollieRestApiClient\Requests\Payment\CreatePaymentRequest;
@@ -197,17 +199,19 @@ class MollieApiClient
 
 	/**
 	 * @param string $amount
+	 * @param string $currency
 	 * @param string $description
 	 * @param string $redirectUrl
 	 * @return CreatePaymentRequest
 	 */
-	public function createPayment(string $amount, string $description, string $redirectUrl): CreatePaymentRequest
+	public function createPayment(string $amount, string $currency, string $description, string $redirectUrl): CreatePaymentRequest
 	{
-		return new CreatePaymentRequest($this->getAccessToken(), $amount, $description, $redirectUrl);
+		return new CreatePaymentRequest($this->getAccessToken(), $amount, $currency, $description, $redirectUrl);
 	}
 
 	/**
 	 * @param string      $amount
+	 * @param string      $currency
 	 * @param string      $description
 	 * @param string      $redirectUrl
 	 * @param string      $sequenceType
@@ -215,9 +219,9 @@ class MollieApiClient
 	 * @param string|NULL $mandateId
 	 * @return CreatePaymentRequest
 	 */
-	public function createRecurringPayment(string $amount, string $description, string $redirectUrl, string $sequenceType, string $customerId, ?string $mandateId = NULL): CreatePaymentRequest
+	public function createRecurringPayment(string $amount, string $currency, string $description, string $redirectUrl, string $sequenceType, string $customerId, ?string $mandateId = NULL): CreatePaymentRequest
 	{
-		$request = new CreatePaymentRequest($this->getAccessToken(), $amount, $description, $redirectUrl);
+		$request = new CreatePaymentRequest($this->getAccessToken(), $amount, $currency, $description, $redirectUrl);
 		$request->makeRecurring($sequenceType, $customerId, $mandateId);
 		return $request;
 	}
@@ -246,7 +250,7 @@ class MollieApiClient
 	 * @return mixed
 	 * @throws Throwable
 	 */
-	public function getPaymentCheckoutUrl(string $paymentId, ?bool $isTestMode = FALSE)
+	public function getPaymentCheckoutUrl(string $paymentId, ?bool $isTestMode = FALSE): mixed
 	{
 		$request = $this->getPayment($paymentId);
 		if ($isTestMode) {
@@ -313,13 +317,14 @@ class MollieApiClient
 	/**
 	 * @param string $customerId
 	 * @param string $amount
+	 * @param string $currency
 	 * @param string $interval
 	 * @param string $description
 	 * @return CreateSubscriptionRequest
 	 */
-	public function createSubscription(string $customerId, string $amount, string $interval, string $description): CreateSubscriptionRequest
+	public function createSubscription(string $customerId, string $amount, string $currency, string $interval, string $description): CreateSubscriptionRequest
 	{
-		return new CreateSubscriptionRequest($this->getAccessToken(), $customerId, $amount, $interval, $description);
+		return new CreateSubscriptionRequest($this->getAccessToken(), $customerId, $amount, $currency, $interval, $description);
 	}
 
 	/**
@@ -365,5 +370,16 @@ class MollieApiClient
 	public function getSubscriptionPaymentList(string $customerId, string $subscriptionId): GetSubscriptionPaymentListRequest
 	{
 		return new GetSubscriptionPaymentListRequest($this->getAccessToken(), $customerId, $subscriptionId);
+	}
+
+	public function getPaymentMethod(string $id): GetPaymentMethodRequest
+	{
+		return new GetPaymentMethodRequest($this->getAccessToken(), $id);
+	}
+
+	/*** @return GetPaymentMethodListRequest */
+	public function getPaymentMethodList(): GetPaymentMethodListRequest
+	{
+		return new GetPaymentMethodListRequest($this->getAccessToken());
 	}
 }

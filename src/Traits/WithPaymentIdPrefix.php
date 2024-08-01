@@ -15,9 +15,8 @@ trait WithPaymentIdPrefix
 	/*** @param string $paymentId */
 	protected function checkPaymentIdPrefix(string $paymentId): void
 	{
-		$resourceIdPrefix = $this->resourceIdPrefix;
-		if (empty($paymentId) || strpos($paymentId, $resourceIdPrefix) !== 0) {
-			throw new RuntimeException("Invalid payment id: '{$paymentId}'. An payment id should start with '" . $resourceIdPrefix . "'.");
+		if (empty($paymentId) || strpos($paymentId, $this->resourceIdPrefix) !== 0) {
+			throw new RuntimeException(sprintf("Invalid payment id: '%s'. An payment id should start with '%s'.", $paymentId, $this->resourceIdPrefix));
 		}
 	}
 

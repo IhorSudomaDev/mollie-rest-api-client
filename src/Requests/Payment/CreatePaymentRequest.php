@@ -34,24 +34,33 @@ class CreatePaymentRequest extends ARequest
 	];
 
 	/**
-	 * @param string $accessToken
-	 * @param string $value
-	 * @param string $description
-	 * @param string $redirectUrl
+	 * @param string      $accessToken
+	 * @param float      $value
+	 * @param string      $currency
+	 * @param string      $description
+	 * @param string|NULL $redirectUrl
 	 */
-	public function __construct(string $accessToken, string $value, string $description, string $redirectUrl)
+	public function __construct(string $accessToken, float $value, string $currency, string $description, ?string $redirectUrl)
 	{
 		parent::__construct($accessToken);
-		$this->withAmount($value);
+		$this->withAmount($value, $currency);
 		$this->withDescription($description);
 		$this->withRedirectUrl($redirectUrl);
-		$this->withIdealMethod();
 	}
 
-	/*** @param string $value */
-	private function withAmount(string $value): void
+	/***
+	 * @param float $value
+	 * @param string $currency
+	 */
+	private function withAmount(float $value, string $currency): void
 	{
-		$this->availableInputParameters = ['amount' => ['value' => $value, 'currency' => 'EUR']];
+		$strValue  = convertFloatToStr($value);
+		$this->availableInputParameters = [
+			'amount' => [
+				'value' => $strValue,
+				'currency' => $currency
+			]
+		];
 	}
 
 	/*** @param string $description */
@@ -60,58 +69,74 @@ class CreatePaymentRequest extends ARequest
 		$this->availableInputParameters['description'] = $description;
 	}
 
-	/*** @param string $redirectUrl */
-	private function withRedirectUrl(string $redirectUrl): void
+	/*** @param string|NULL $redirectUrl */
+	private function withRedirectUrl(?string $redirectUrl): void
 	{
 		$this->availableInputParameters['redirectUrl'] = $redirectUrl;
 	}
 
 	/**
 	 * @param string $profileId
-	 * @return void
+	 * @return $this
 	 */
-	private function withProfileId(string $profileId): void
+	public function withProfileId(string $profileId): self
 	{
 		$this->checkProfileIdPrefix($profileId);
 		$this->availableInputParameters['profileId'] = $profileId;
-	}
-
-	/*** @return void */
-	private function withIdealMethod(): void
-	{
-		$this->availableInputParameters['method'] = PaymentMethod::IDEAL;
+		return $this;
 	}
 
 	/**
-	 * @param string $cancelUrl
+	 * @param string|NULL $cancelUrl
 	 * @return $this
 	 */
-	public function withCancelUrl(string $cancelUrl): self
+	public function withCancelUrl(?string $cancelUrl): self
 	{
 		$this->availableInputParameters['cancelUrl'] = $cancelUrl;
 		return $this;
 	}
 
 	/**
-	 * @param string $webhookUrl
+	 * @param string|NULL $webhookUrl
 	 * @return $this
 	 */
-	public function withWebhookUrl(string $webhookUrl): self
+	public function withWebhookUrl(?string $webhookUrl): self
 	{
 		$this->availableInputParameters['webhookUrl'] = $webhookUrl;
 		return $this;
 	}
 
 	/**
-	 * @param string $locale
+	 * @param string|NULL $locale
 	 * @return $this
 	 */
-	public function withLocale(string $locale): self
+	public function withLocale(?string $locale): self
 	{
 		if ( ! in_array($locale, Locale::getPossibleValueList(), TRUE)) {
 			throw new RuntimeException('Undefined locale');
 		}
 		$this->availableInputParameters['locale'] = $locale;
+		return $this;
+	}
+
+	/**
+	 * @param array|NULL $methodList
+	 * @return $this
+	 */
+	public function withMethod(?array $methodList): self
+	{
+
+		$this->availableInputParameters['method'] = $methodList;
+		return $this;
+	}
+
+	/**
+	 * @param string $cardToken
+	 * @return $this
+	 */
+	public function withCardToken(string $cardToken): self
+	{
+		$this->availableInputParameters['cardToken'] = $cardToken;
 		return $this;
 	}
 
@@ -126,10 +151,10 @@ class CreatePaymentRequest extends ARequest
 	}
 
 	/**
-	 * @param mixed $metadata
+	 * @param string $metadata
 	 * @return $this
 	 */
-	public function withMetaData($metadata): self
+	public function withMetaData(string $metadata): self
 	{
 		$this->availableInputParameters['metadata'] = $metadata;
 		return $this;
@@ -184,7 +209,7 @@ class CreatePaymentRequest extends ARequest
 	 * @param string      $customerId
 	 * @param string|NULL $mandateId
 	 */
-	public function makeRecurring(string $sequenceType, string $customerId, ?string $mandateId = NULL)
+	public function makeRecurring(string $sequenceType, string $customerId, ?string $mandateId = NULL): void
 	{
 		if ( ! in_array($sequenceType, SequenceType::getPossibleValueList(), TRUE)) {
 			throw new RuntimeException('Undefined sequence type');

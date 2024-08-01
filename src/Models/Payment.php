@@ -6,31 +6,40 @@ use stdClass;
 
 /**
  * Class Payment
- * @property string               id
- * @property string               mode
- * @property string               createdAt
- * @property Amount               amount
- * @property string               description
- * @property string|NULL          method
- * @property mixed|NULL           metadata
- * @property string               status
- * @property string|NULL          paidAt
- * @property AmountRefunded|NULL  amountRefunded
- * @property AmountRemaining|NULL amountRemaining
- * @property bool|NULL            isCancelable
- * @property string               locale
- * @property string|NULL          countryCode
- * @property string               restrictPaymentMethodsToCountry
- * @property string|NULL          canceledAt
- * @property string|NULL          expiresAt
- * @property string|NULL          expiredAt
- * @property Details|NULL         details
- * @property string               profileId
- * @property string               sequenceType
- * @property string               redirectUrl
- * @property SettlementAmount     settlementAmount
- * @property string               webhookUrl
- * @property stdClass             _links
+ * @property string                 id
+ * @property string                 mode
+ * @property string                 createdAt
+ * @property Amount                 amount
+ * @property string                 description
+ * @property string|NULL            method
+ * @property mixed|NULL             metadata
+ * @property string                 status
+ * @property string|NULL            canceledAt
+ * @property string|NULL            expiredAt
+ * @property string|NULL            expiresAt
+ * @property string|NULL            failedAt
+ * @property string|NULL            paidAt
+ * @property string|NULL            dueDate
+ * @property string|NULL            billingEmail
+ * @property AmountChargedBack|NULL amountChargedBack
+ * @property AmountRefunded|NULL    amountRefunded
+ * @property AmountRemaining|NULL   amountRemaining
+ * @property bool|NULL              isCancelable
+ * @property string                 locale
+ * @property string|NULL            countryCode
+ * @property string                 restrictPaymentMethodsToCountry
+ * @property Details|NULL           details
+ * @property string                 profileId
+ * @property string|NULL            customerId
+ * @property string|NULL            mandateId
+ * @property string|NULL            orderId
+ * @property string|NULL            subscriptionId
+ * @property string                 sequenceType
+ * @property string|NULL            cancelUrl
+ * @property string                 redirectUrl
+ * @property string|NULL            webhookUrl
+ * @property SettlementAmount       settlementAmount
+ * @property stdClass               _links
  * @package MollieRestApiClient\Models
  */
 class Payment
@@ -65,7 +74,7 @@ class Payment
 		return $this->description;
 	}
 
-	/*** @return string|null */
+	/*** @return string|NULL */
 	public function getMethod(): ?string
 	{
 		return $this->method;
@@ -83,10 +92,52 @@ class Payment
 		return $this->status;
 	}
 
-	/*** @return string|null */
+	/*** @return string|NULL */
+	public function getCanceledAt(): ?string
+	{
+		return $this->canceledAt;
+	}
+
+	/*** @return string|NULL */
+	public function getExpiredAt(): ?string
+	{
+		return $this->expiredAt;
+	}
+
+	/*** @return string|NULL */
+	public function getExpiresAt(): ?string
+	{
+		return $this->expiresAt;
+	}
+
+	/*** @return string|NULL */
+	public function getFailedAt(): ?string
+	{
+		return $this->failedAt;
+	}
+
+	/*** @return string|NULL */
 	public function getPaidAt(): ?string
 	{
 		return $this->paidAt;
+	}
+
+	/*** @return string|NULL */
+	public function getDueDate(): ?string
+	{
+		return $this->dueDate;
+	}
+
+	/*** @return string|NULL */
+	public function getBillingEmail(): ?string
+	{
+		return $this->billingEmail;
+	}
+
+	/*** @return AmountChargedBack|NULL */
+	public function getAmountChargedBack(): ?AmountChargedBack
+	{
+		return $this->amountChargedBack;
 	}
 
 	/*** @return AmountRefunded|NULL */
@@ -125,28 +176,10 @@ class Payment
 		return $this->restrictPaymentMethodsToCountry;
 	}
 
-	/*** @return string|NULL */
-	public function getCanceledAt(): ?string
-	{
-		return $this->canceledAt;
-	}
-
-	/*** @return string|NULL */
-	public function getExpiresAt(): ?string
-	{
-		return $this->expiresAt;
-	}
-
-	/*** @return string|NULL */
-	public function getExpiredAt(): ?string
-	{
-		return $this->expiredAt;
-	}
-
 	/*** @return Details|NULL */
 	public function getDetails(): ?Details
 	{
-		return $this->details;
+		return $this->details ?? NULL;
 	}
 
 	/*** @return string */
@@ -155,10 +188,40 @@ class Payment
 		return $this->profileId;
 	}
 
+	/*** @return string|NULL */
+	public function getCustomerId(): ?string
+	{
+		return $this->customerId;
+	}
+
+	/*** @return string|NULL */
+	public function getMandateId(): ?string
+	{
+		return $this->mandateId;
+	}
+
+	/*** @return string|NULL */
+	public function getOrderId(): ?string
+	{
+		return $this->orderId;
+	}
+
+	/*** @return string|NULL */
+	public function getSubscriptionId(): ?string
+	{
+		return $this->subscriptionId ?? NULL;
+	}
+
 	/*** @return string */
 	public function getSequenceType(): string
 	{
 		return $this->sequenceType;
+	}
+
+	/*** @return string|NULL */
+	public function getCancelUrl(): ?string
+	{
+		return $this->cancelUrl;
 	}
 
 	/*** @return string */
@@ -167,16 +230,16 @@ class Payment
 		return $this->redirectUrl;
 	}
 
+	/*** @return string|NULL */
+	public function getWebhookUrl(): ?string
+	{
+		return $this->webhookUrl;
+	}
+
 	/*** @return SettlementAmount */
 	public function getSettlementAmount(): SettlementAmount
 	{
 		return $this->settlementAmount;
-	}
-
-	/*** @return string */
-	public function getWebhookUrl(): string
-	{
-		return $this->webhookUrl;
 	}
 
 	/*** @return stdClass */
